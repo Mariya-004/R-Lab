@@ -1,34 +1,25 @@
-n <- as.numeric(readline("Enter the number of students: "))
-c <- 0
+students <- data.frame(Name = character(), Age = numeric(), Grade = character(), stringsAsFactors = FALSE)
+n <- as.numeric(readline(prompt ="Enter the number of students"))
+for (i in 1:n){
+    name <- readline(prompt = "Enter your name: ")
+    age <- as.numeric(readline(prompt = "Enter your age: "))
+    while (is.na(age) || age <= 0) {
+      cat("Please enter a valid age\n")
+      flush.console()  
+      age <- as.numeric(readline(prompt = "Enter your age: "))
+    }
 
-students_table <- data.frame(Name = character(), Age = numeric(), Grade = character(), stringsAsFactors = FALSE)
-Grade <- c("A", "B", "C", "D", "F")  # Declare this outside the loop
-print()
-while (c < n) {
-  name <- readline("Enter your name: ")
-  
-  # Read and validate age
-  age <- as.numeric(readline("Enter your age: "))
-  while (is.na(age) || age <= 0) {
-    cat("Please enter a valid age\n")  # Use cat() for clean output
-    age <- as.numeric(readline("Enter your age: "))
-  }
-  
-  # Read and validate grade
-  grade <- readline("Enter your grade: ")
-  while (!(grade %in% Grade)) {
-    cat("Please enter a valid grade (A, B, C, D, F)\n")
-    grade <- readline("Enter your grade: ")
-  }
-  
-  # Append to table
-  new_row <- data.frame(Name = name, Age = age, Grade = grade, stringsAsFactors = FALSE)
-  students_table <- rbind(students_table, new_row)
-  
-  c <- c + 1
+    grade <- readline(prompt = "Enter your grade: ")
+    grades <- c('A', 'B', 'C', 'D', 'F')
+    while (!(grade %in% grades)) {
+      cat("Please enter a valid grade [A,B,C,D,F] \n")
+      flush.console()  
+      grade <- readline(prompt = "Enter your grade: ")
+    }
+      
+    students <- rbind(students, data.frame(Name = name, Age = age, Grade = grade))
+
 }
-
-# Print the final table
-print(students_table)
-mean_age <- mean(students_table$Age)
-print(paste("Mean age of students:", mean_age))
+cat("VALID STUDENTS RECORDS\n")
+print(students)
+cat("\n MEAN AGE OF STUDENTS", mean(students$Age), "\n")
