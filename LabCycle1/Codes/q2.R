@@ -1,24 +1,23 @@
-library(stringr)
-sentence <- readline(prompt = "Enter a sentence:")
-clean_sentence <-str_replace_all(sentence,"[[:punct:]]","")
-cat("Cleaned senetence:",clean_sentence)
-ascii <- as.integer(charToRaw(clean_sentence))
-print("ASCII Value")
-print(ascii)
-shift_val <- as.integer(readline(prompt="Enter the shift value:"))
-len <- length(ascii)
-print(len)
-for (i in 1:length(ascii)){
-  if (ascii[i]!=32){
-    if (ascii[i]>=65 && ascii[i]<=90){
-      ascii[i] <- ((ascii[i]-65+shift_val)%%26)+65
+#caesar cipher
+caesar_cipher <- function(text, shift_val){
+  shift <- shift_val %% 26
+  char <-unlist(strsplit(text, ""))
+  encrypted_text <-""
+  for (i in char){
+    if (i %in% letters ){
+      encrypted<-intToUtf8((utf8ToInt(i) -utf8ToInt("a")+shift )%%26 + (utf8ToInt("a")))
+      encrypted_text<-paste0(encrypted_text,encrypted)
     }
-    if (ascii[i]>=97 && ascii[i]<=122){
-      ascii[i] <- ((ascii[i]-97+shift_val)%%26)+97
+    else if(i %in% LETTERS){
+      encrypted<-intToUtf8((utf8ToInt(i) -utf8ToInt("A")+shift )%%26 + (utf8ToInt("A")))
+      encrypted_text<-paste0(encrypted_text,encrypted)
+    }
+    else{
+      encrypted_text <-paste0(encrypted_text,i)
     }
   }
+  return (encrypted_text)
 }
-encrypted_sentence <-rawToChar(as.raw(ascii))
-print("Encrypted sentence")
-print(encrypted_sentence)
-
+text <- readline(prompt = "Enter the text to be encrypted:")
+shift <-as.numeric(readline(prompt = "Enter the shift value:"))
+cat("Encrypted text:",caesar_cipher(text,shift))
