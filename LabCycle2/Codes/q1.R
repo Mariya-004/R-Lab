@@ -2,6 +2,7 @@
 data(iris)
 
 # Create a scatter plot with labels and title
+png("Sepal vs petal length.png")
 plot(iris$Sepal.Length, iris$Petal.Length,
      main = "Scatterplot of Sepal Length vs Petal Length",
      xlab = "Sepal Length (cm)",
